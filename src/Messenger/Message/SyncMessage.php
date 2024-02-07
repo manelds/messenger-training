@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace App\Messenger\Message;
 
-final class SyncMessage
+final readonly class SyncMessage
 {
-    private string $data;
-
-    public function __construct(string $data)
+    public function __construct(public string $data)
     {
-        $this->data = $data;
-    }
-
-    public function data(): string
-    {
-        return $this->data;
     }
 }

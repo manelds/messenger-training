@@ -1,10 +1,16 @@
 framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
+        failure_transport: failed
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
+            doctrine:
+                dsn: '%env(MESSENGER_DOCTRINE_TRANSPORT_DSN)%'
             async:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
@@ -15,9 +21,15 @@ framework:
                         default_queue:
                             binding_keys: [ default_queue ]
             sync: 'sync://'
-            # failed: 'doctrine://default?queue_name=failed'
+            failed:
+                dsn: 'doctrine://default?queue_name=failed'
+                options:
+                    table_name: messages_failed
+                    queue_name: failed
+                    auto_setup: true
 
         routing:
             # Route your messages to the transports
             'App\Messenger\Message\SyncMessage': sync
             'App\Messenger\Message\AsyncMessage': async
+            'App\Messenger\Message\DoctrineMessage': doctrine

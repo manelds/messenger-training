@@ -20,8 +20,10 @@ final class AsyncMessageHandler
 
     public function __invoke(AsyncMessage $message): void
     {
+        sleep(1);
+
         $this->logger->info(
-            sprintf('Procesando mensaje asíncrono: <%s>', $message->data())
+            sprintf('Procesando mensaje asíncrono: <%s>', $message->data)
         );
     }
 }

@@ -30,12 +30,17 @@ final class MessengerSendAsyncCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $start = microtime(true);
+
         for($i = 1; $i <= 10; $i++) {
             $this->bus->dispatch(
                 new AsyncMessage('Data of event #' . $i),
                 [new AmqpStamp('default_queue')]
             );
         }
+
+        $time_elapsed_secs = microtime(true) - $start;
+        $output->writeln(sprintf('Total time: %s', $time_elapsed_secs));
 
         return Command::SUCCESS;
     }

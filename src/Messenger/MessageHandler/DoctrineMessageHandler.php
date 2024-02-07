@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SyncMessageHandler
+final class DoctrineMessageHandler
 {
     private LoggerInterface $logger;
 
